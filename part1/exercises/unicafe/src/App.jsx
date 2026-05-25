@@ -3,19 +3,21 @@ import { useState } from 'react'
 const Button = ({ text, onClick }) =>
   <button onClick={onClick}>{text}</button>
 
-const StatisticLine = ({ text, value }) => <p>{text} {value}</p>
+const StatisticLine = ({ text, value }) => <tr><td>{text}</td><td> {value}</td></tr>
 
 const Statistics = ({ stats }) =>
   <>
     <h1>statistics</h1>
-    {stats.total > 0 ? (<>
-      <StatisticLine text="good" value={stats.good} />
-      <StatisticLine text="neutral" value={stats.neutral} />
-      <StatisticLine text="bad" value={stats.bad} />
-      <StatisticLine text="total" value={stats.total} />
-      <StatisticLine text="average" value={stats.average} />
-      <StatisticLine text="positive" value={stats.positive + "%"} />
-    </>
+    {stats.total > 0 ? (<table>
+      <tbody>
+        <StatisticLine text="good" value={stats.good} />
+        <StatisticLine text="neutral" value={stats.neutral} />
+        <StatisticLine text="bad" value={stats.bad} />
+        <StatisticLine text="total" value={stats.total} />
+        <StatisticLine text="average" value={stats.average} />
+        <StatisticLine text="positive" value={stats.positive + "%"} />
+      </tbody>
+    </table>
     ) : (<p>No feedback given</p>)}
   </>
 
@@ -27,7 +29,7 @@ const App = () => {
     const results = {}
     results.total = good + neutral + bad;
     results.average = (good - bad) / results.total;
-    results.positive = good / results.total;
+    results.positive = good / results.total * 100;
     return results;
   }
 
