@@ -3,6 +3,18 @@ import { useState } from 'react'
 const Button = ({ text, onClick }) =>
   <button onClick={onClick}>{text}</button>
 
+const Statistics = ({ stats }) =>
+  <>
+    <h1>statistics</h1>
+    <p>good {stats.good}</p>
+    <p>neutral {stats.neutral}</p>
+    <p>bad {stats.bad}</p>
+    <p>total {stats.total}</p>
+    <p>average {stats.average}</p>
+    <p>positive {stats.positive}%</p>
+  </>
+
+
 const App = () => {
   const [stats, setStats] = useState({ good: 0, neutral: 0, bad: 0, total: 0, average: 0, positive: 0 })
 
@@ -38,13 +50,8 @@ const App = () => {
       <Button onClick={handleSetGood} text="good" />
       <Button onClick={handleSetNeutral} text="neutral" />
       <Button onClick={handleSetBad} text="bad" />
-      <h1>statistics</h1>
-      <p>good {stats.good}</p>
-      <p>neutral {stats.neutral}</p>
-      <p>bad {stats.bad}</p>
-      <p>total {stats.total}</p>
-      <p>average {stats.average}</p>
-      <p>positive {stats.positive}%</p>
+      <Statistics stats={stats}></Statistics>
+
     </div>
   )
 }
