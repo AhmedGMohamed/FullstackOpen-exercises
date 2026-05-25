@@ -1,27 +1,50 @@
 import { useState } from 'react'
 
-const Button = ({ text, onClick }) => {
-  return (
-    <button onClick={onClick}>{text}</button>
-  )
-}
+const Button = ({ text, onClick }) =>
+  <button onClick={onClick}>{text}</button>
 
 const App = () => {
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [stats, setStats] = useState({ good: 0, neutral: 0, bad: 0, total: 0, average: 0, positive: 0 })
+
+  function calculateStats(good, neutral, bad) {
+    const results = {}
+    results.total = good + neutral + bad;
+    results.average = (good - bad) / results.total;
+    results.positive = good / results.total;
+    return results;
+  }
+
+  const handleSetGood = () => {
+    const newGood = stats.good + 1;
+    const newStats = calculateStats(newGood, stats.neutral, stats.bad);
+    setStats({ ...stats, good: newGood, ...newStats });
+  }
+
+  const handleSetNeutral = () => {
+    const newNeutral = stats.neutral + 1;
+    const newStats = calculateStats(stats.good, newNeutral, stats.bad);
+    setStats({ ...stats, neutral: newNeutral, ...newStats });
+  }
+
+  const handleSetBad = () => {
+    const newBad = stats.bad + 1;
+    const newStats = calculateStats(stats.good, stats.neutral, newBad);
+    setStats({ ...stats, bad: newBad, ...newStats })
+  }
 
   return (
     <div>
       <h1>give feedback</h1>
-      <Button onClick={() => setGood(good + 1)} text="good" />
-      <Button onClick={() => setNeutral(neutral + 1)} text="neutral" />
-      <Button onClick={() => setBad(bad + 1)} text="bad" />
+      <Button onClick={handleSetGood} text="good" />
+      <Button onClick={handleSetNeutral} text="neutral" />
+      <Button onClick={handleSetBad} text="bad" />
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
+      <p>good {stats.good}</p>
+      <p>neutral {stats.neutral}</p>
+      <p>bad {stats.bad}</p>
+      <p>total {stats.total}</p>
+      <p>average {stats.average}</p>
+      <p>positive {stats.positive}%</p>
     </div>
   )
 }
